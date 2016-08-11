@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using System.Diagnostics;
+using System.IO;
 
 namespace TestingApp
 {
@@ -27,10 +23,10 @@ namespace TestingApp
 
         public static void Help()
         {
-            Console.WriteLine("Usage: Tester [command]");
-            Console.WriteLine("Commands: -h Help");
-            Console.WriteLine("Examples: TestingApp -h");
-            Console.WriteLine("          TestingApp TextToASCII.exe");
+            Console.WriteLine("Usage: Tester [command]\n"
+                + "Commands: -h Help\n"
+                + "Examples: TestingApp -h\n"
+                + "TestingApp TextToASCII.exe");
         }
 
         private static bool FileCompare(string file1, string file2)
@@ -38,8 +34,8 @@ namespace TestingApp
             if (file1 == file2)
                 return true;
 
-            int file1byte;
-            int file2byte;
+            int file1Byte;
+            int file2Byte;
 
             using (FileStream fs1 = File.OpenRead(file1),
                 fs2 = File.OpenRead(file2))
@@ -49,13 +45,13 @@ namespace TestingApp
 
                 do
                 {
-                    file1byte = fs1.ReadByte();
-                    file2byte = fs2.ReadByte();
+                    file1Byte = fs1.ReadByte();
+                    file2Byte = fs2.ReadByte();
                 }
-                while ((file1byte == file2byte) && (file1byte != -1));
+                while ((file1Byte == file2Byte) && (file1Byte != -1));
             }
 
-            return (file1byte == file2byte);
+            return (file1Byte == file2Byte);
         }
 
         public static void FullLog(string testAppName)
