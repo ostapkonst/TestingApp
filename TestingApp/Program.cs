@@ -4,7 +4,7 @@ using System.IO;
 
 namespace TestingApp
 {
-    class Program
+    static class Program
     {
         public static void About()
         {
@@ -54,44 +54,40 @@ namespace TestingApp
             return (file1Byte == file2Byte);
         }
 
-        public static void FullLog(string testAppName)
+        public static void FullLog(string appName, string argStr)
         {
-            if (!File.Exists(testAppName))
+            if (!File.Exists(appName))
             {
                 InvalidCommand();
                 return;
             }
 
-            const string inputFolder = "Input";
-            const string outputFolder = "Output";
-            const string etalonFolder = "Etalon";
-
-            if (!Directory.Exists(outputFolder) && Directory.Exists(inputFolder))
-                Directory.CreateDirectory(outputFolder);
+            if (!Directory.Exists("Output") && Directory.Exists("Input"))
+                Directory.CreateDirectory("Output");
 
             uint good = 0, bad = 0, miss = 0;
             DateTime start = DateTime.Now;
 
-            foreach (string inputFile in Directory.EnumerateFiles(inputFolder, "*.txt"))
+            foreach (string iFile in Directory.EnumerateFiles("Input", "*.txt"))
             {
-                string inputFileName = Path.GetFileName(inputFile);
+                string iFileN = Path.GetFileName(iFile);
 
-                string outputFile = outputFolder + "\\" + inputFileName;
-                string etalonFile = etalonFolder + "\\" + inputFileName;
+                string oFile = "Output\\" + iFileN;
+                string eFile = "Etalon\\" + iFileN;
 
-                using (Process proc = new Process())
+                using (Process p = new Process())
                 {
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.FileName = testAppName;
-                    proc.StartInfo.Arguments = inputFile + " " + outputFile;
-                    proc.Start();
-                    proc.WaitForExit();
+                    p.StartInfo.UseShellExecute = false;
+                    p.StartInfo.FileName = appName;
+                    p.StartInfo.Arguments = argStr + " " + iFile + " " + oFile;
+                    p.Start();
+                    p.WaitForExit();
                 }
 
-                string test = inputFileName + ": ";
+                string test = iFileN + ": ";
 
-                if (File.Exists(etalonFile))
-                    if (FileCompare(outputFile, etalonFile))
+                if (File.Exists(eFile))
+                    if (FileCompare(oFile, eFile))
                     {
                         test += "OK";
                         good++;
@@ -132,9 +128,13 @@ namespace TestingApp
                             Help();
                             break;
                         default:
-                            FullLog(args[0]);
+                            InvalidArgument();
                             break;
                     }
+                    break;
+
+                case 2:
+                    FullLog(args[0], args[1]);
                     break;
 
                 default:
