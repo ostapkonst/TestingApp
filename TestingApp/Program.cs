@@ -8,7 +8,7 @@ namespace TestingApp
     {
         public static void About()
         {
-            Console.WriteLine("Tester Version 1.1 Copyright (c) 2016 Konstantinov Ostap");
+            Console.WriteLine("TestingApp Version 1.1 Copyright (c) 2016 Konstantinov Ostap");
         }
 
         public static void InvalidArgument()
@@ -23,10 +23,10 @@ namespace TestingApp
 
         public static void Help()
         {
-            Console.WriteLine("Usage: Tester [command]\n"
+            Console.WriteLine("Usage: TestingApp <command> [application] [argument]\n"
                 + "Commands: -h Help\n"
                 + "Examples: TestingApp -h\n"
-                + "TestingApp TextToASCII.exe");
+                + "TestingApp.exe TextToASCII.exe 10");
         }
 
         private static bool FileCompare(string file1, string file2)
